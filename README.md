@@ -1,4 +1,4 @@
-# Toppyquiz
+# Toppyquiz
 
 Because I just wanted to host some trivia games with my friends. I needed a fully customizable quiz that I can self-host, instead of relying on shady and paid websites.
 Backend is written in Go using Gin. Front-end is using websockets.

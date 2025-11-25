@@ -6,14 +6,13 @@ COPY src/go.mod src/go.sum ./
 RUN go mod download
 COPY src/ .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o /client
+RUN CGO_ENABLED=0 GOOS=linux go build -o /server
 
 FROM alpine:latest
 # Stage 2 : Simply deploy the built bin
 WORKDIR /app
-COPY src/assets /app/assets
-COPY src/html /app/html
-COPY --from=builder /client .
-EXPOSE 80
 
-CMD ["/app/client"]
+COPY --from=builder /server .
+EXPOSE 3000
+
+CMD ["/app/server"]
