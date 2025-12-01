@@ -5,16 +5,19 @@ Backend is written in Go using Gin. Front-end is using websockets.
 
 # Planned features
 
+## Frontend
+- [ ] Real-time buzzer
+
+- [ ] Question types (images, blind test...)
+- [ ] Custom question types
+- [ ] Show images and answers after delay
+- [ ] Leaderboard
+- [ ] Quiz maker
+- [ ] Shop
+- [ ] Background music management
+
 ## Backend
 
 - [x] Docker support
 - [ ] SQLite support for storing quizzes and settings
-
-## Frontend
-
-- [ ] Display a quiz to show for other participants
-- [ ] Leaderboard support
-- [ ] Show images and answers after delay
-- [ ] Quiz maker
-- [ ] Interactive quiz with people that can join and answer
-- [ ] Buzzer system
+- [ ] backend API
