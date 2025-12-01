@@ -7,6 +7,5 @@ import (
 func main() {
 	// Load HTML templates folder
 	r := gin.Default()
-	r.LoadHTMLGlob("html/*")
 	r.Run(":3000")
 }

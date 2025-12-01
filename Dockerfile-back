@@ -2,17 +2,17 @@ FROM golang:alpine AS builder
 
 # Stage 1 : dependencies download
 WORKDIR /app
-COPY src/go.mod src/go.sum ./
+COPY back/go.mod back/go.sum ./
 RUN go mod download
-COPY src/ .
+COPY back/ .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o /server
+RUN CGO_ENABLED=0 GOOS=linux go build -o /back
 
 FROM alpine:latest
 # Stage 2 : Simply deploy the built bin
 WORKDIR /app
 
-COPY --from=builder /server .
+COPY --from=builder /back .
 EXPOSE 3000
 
-CMD ["/app/server"]
+CMD ["/app/back"]
