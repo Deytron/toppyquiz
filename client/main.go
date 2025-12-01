@@ -16,9 +16,9 @@ func main() {
 	SetRoutes(r)
 
 	// Use middlewares
-	r.Use(middlewares.CheckAPI)
+	r.Use(middlewares.CheckAPI())
 
-	r.Run(":8082")
+	r.Run(":80")
 }
 
 func SetRoutes(r *gin.Engine) {
