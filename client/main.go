@@ -20,17 +20,24 @@ func main() {
 	// Setup
 	r.LoadHTMLGlob("templates/*")
 	SetRoutes(r)
+	r.Static("/assets", "./assets")
 
 	// Use middlewares
 	r.Use(middlewares.CheckAPI())
 
-	r.Run(":80")
+	r.Run(":8080")
 }
 
 func SetRoutes(r *gin.Engine) {
 	r.NoRoute(h.NoRouteHandler)
 	r.GET("/health", h.HealthHandler)
 
-	// Main route
+	// Main page with display route
 	r.GET("/", h.MainHandler)
+
+	// Admin route for managing content shown and leaderboard, with BasicAuth
+	admin := r.Group("/admin", gin.BasicAuth(gin.Accounts{
+		"admin": os.Getenv("ADMIN_PASSWORD"),
+	}))
+	admin.GET("", h.AdminHandler)
 }

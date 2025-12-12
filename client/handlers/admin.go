@@ -6,9 +6,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func MainHandler(c *gin.Context) {
+func AdminHandler(c *gin.Context) {
+	// GET
+
 	// Render page with data
 	c.HTML(http.StatusOK, "index.tmpl", gin.H{
-		"title": "Le Tzatziquiz",
+		"title": "Tzatziquiz Administration",
 	})
 }
