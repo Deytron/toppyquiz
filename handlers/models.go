@@ -1,4 +1,4 @@
-package main
+package handlers
 
 import "gorm.io/gorm"
 
@@ -37,6 +37,6 @@ type Item struct {
 
 type Quiz struct {
 	gorm.Model
-	Name string
+	Name      string
 	Questions []Question `gorm:"many2many:quiz_questions;"`
 }

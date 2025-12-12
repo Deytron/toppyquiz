@@ -7,10 +7,12 @@ import (
 )
 
 func AdminHandler(c *gin.Context) {
-	// GET
+	// GET quiz list from sql db with GoRm
+	
+
 
 	// Render page with data
-	c.HTML(http.StatusOK, "index.tmpl", gin.H{
+	c.HTML(http.StatusOK, "admin.tmpl", gin.H{
 		"title": "Tzatziquiz Administration",
 	})
 }
