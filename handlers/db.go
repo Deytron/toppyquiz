@@ -6,9 +6,12 @@ import (
 	"gorm.io/gorm"
 )
 
+var Db *gorm.DB
+
 func InitDb() {
 	// Check if Db exists, if not panic, as it should have been created before the container is run
-	db, err := gorm.Open(gormlite.Open("gorm.db"), &gorm.Config{})
+	var err error
+	Db, err = gorm.Open(gormlite.Open("tq.db"), &gorm.Config{})
 
 	if err != nil {
 		panic("GoRM : failed to connect database" + err.Error())
@@ -21,8 +24,9 @@ func InitDb() {
 		&Team{},
 		&ItemType{},
 		&Item{},
+		&Quiz{},
 	}
-	derr := db.AutoMigrate(models...)
+	derr := Db.AutoMigrate(models...)
 	if derr != nil {
 		panic("GoRM : failed to migrate database")
 	} else {

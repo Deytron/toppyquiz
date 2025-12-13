@@ -29,7 +29,8 @@ func main() {
 func SetRoutes(r *gin.Engine) {
 	r.NoRoute(h.NoRouteHandler)
 
-	// Main page with display route
+	// All the different routes
+	r.GET("/leaderboard/:id", h.LeaderboardHandler)
 	r.GET("/", h.MainHandler)
 
 	// Admin route for managing content shown and leaderboard, with BasicAuth
@@ -38,4 +39,6 @@ func SetRoutes(r *gin.Engine) {
 	}))
 
 	admin.GET("", h.AdminHandler)
+	admin.GET("/add-team/:id", h.AdminTeamHandler)
+	admin.POST("/add-team/:id", h.AdminTeamHandler)
 }

@@ -1,0 +1,22 @@
+{{ define "leaderboard.tmpl" }}
+{{ template "header" . }}
+<section class="container mt-2">
+    <h1 class="title is-1 has-text-centered">
+
+        {{ if eq (len .leaderboard) 0 }}
+        <h2 class="subtitle is-1 has-text-centered mt-3">Aucune équipe créée pour ce quiz</h2>
+        {{ else }}
+        {{ range .leaderboard }}
+        <div class="box">
+            <h2 class="title is-4">{{ .Name }}</h2>
+            <p>{{ .Score }}</p>
+        </div>
+        {{ end }}
+        {{ end }}
+
+
+</section>
+</body>
+
+</html>
+{{ end }}

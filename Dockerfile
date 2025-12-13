@@ -11,7 +11,6 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o /tq
 FROM alpine:latest
 # Stage 2 : Simply deploy the built bin
 WORKDIR /app
-COPY assets /app/assets
 COPY handlers /app/handlers
 COPY templates /app/templates
 COPY --from=builder /tq .
