@@ -1,0 +1,79 @@
+{{ define "edit-quiz.tmpl" }}
+{{ template "header" . }}
+<section class="container">
+    <h2 class="title is-1 has-text-centered">{{.Name}}</h2>
+
+    <!-- Update questions -->
+    <form action="/admin/edit-quiz/{{.QID}}" method="post">
+        <input type="hidden" name="action" value="update_questions">
+
+        {{ range $i, $q := .Questions }}
+        <div class="box">
+            <h3 class="title is-4">{{ $q.ThemeName }} — #{{ $q.ID }}</h3>
+
+            <input type="hidden" name="questions[{{$i}}].id" value="{{ $q.ID }}">
+
+            <div class="field">
+                <div class="control">
+                    <input class="input" type="text" name="questions[{{$i}}].text" value="{{ $q.Text }}" required>
+                </div>
+            </div>
+        </div>
+        {{ end }}
+
+        <button class="button is-primary" type="submit">
+            Sauvegarder les questions
+        </button>
+
+    </form>
+    <!-- Add question -->
+    <h3 class="title is-3 mt-5">Ajouter une question</h3>
+
+    <form action="/admin/edit-quiz/{{.QID}}" method="post">
+        <input type="hidden" name="action" value="add_question">
+
+        <div class="field">
+            <div class="control">
+                <input class="input" list="themes" name="new_questions[0].theme_id" placeholder="Rechercher un thème…"
+                    required>
+
+                <datalist id="themes">
+                    {{ range .Quiz.Themes }}
+                    <option value="{{ .ID }}">{{ .Name }}</option>
+                    {{ end }}
+                </datalist>
+
+                <input class="input mt-2" type="text" name="new_questions[0].text" placeholder="Texte de la question"
+                    required>
+            </div>
+        </div>
+
+        <button class="button is-primary" type="submit">
+            Ajouter la question
+        </button>
+    </form>
+    <!-- Add theme -->
+    <h3 class="title is-3 mt-5">Ajouter un thème</h3>
+
+    <form action="/admin/edit-quiz/{{.QID}}" method="post">
+        <input type="hidden" name="action" value="add_theme">
+
+        <div class="field">
+            <div class="control">
+                <input class="input" type="text" name="new_theme.name" placeholder="Nom du thème" required>
+            </div>
+        </div>
+
+        <button class="button is-link" type="submit">
+            Ajouter le thème
+        </button>
+    </form>
+
+
+</section>
+
+<!--  -->
+</body>
+
+</html>
+{{ end }}

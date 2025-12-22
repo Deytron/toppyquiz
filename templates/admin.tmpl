@@ -7,7 +7,26 @@
 
     <h2 class="title is-1 has-text-centered">Liste des quiz</h2>
 
-    
+    {{ if eq (len .quizzes) 0 }}
+    <h2 class="subtitle is-1 has-text-centered mt-3">Aucun quiz créé pour le moment</h2>
+    {{ else }}
+    {{ range .quizzes }}
+    <div class="box">
+        <a href="/quiz/{{ .ID }}">
+            <h2 class="title is-4">{{ .Name }}</h2>
+        </a>
+        <p>{{ .Description }}</p>
+        <div class="columns mt-3">
+            <a class="button is-light mr-2" href="/admin/add-team/{{ .ID }}">Ajouter une équipe</a>
+            <a class="button is-success" href="/admin/edit-quiz/{{ .ID }}">Modifier les questions</a>
+            <a class="button is-warning" href="/admin/dashboard/{{ .ID }}">Dashboard du quiz</a>
+        </div>
+    </div>
+    {{ end }}
+    {{ end }}
+
+    <a href="/admin/add-quiz" class="button is-primary">Créer un nouveau quiz</a>
+
 
 </section>
 

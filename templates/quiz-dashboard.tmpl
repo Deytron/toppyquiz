@@ -1,0 +1,57 @@
+{{ define "quiz-dashboard.tmpl" }}
+{{ template "header" . }}
+<section class="container">
+    <h1 class="title is-1 has-text-centered">
+        {{.Quiz.Name}}
+    </h1>
+
+    <button class="button is-light">Image d'attente</button>
+    <button class="button is-link">Boutique</button>
+    <button class="button is-light">Thèmes</button>
+    <button class="button is-info">Montrer le leaderboard</button>
+
+    <!-- Questions control -->
+    <button class="button is-success">Question précédente</button>
+    <button class="button is-light">Afficher l'image</button>
+    <button class="button is-success">Question suivante</button>
+
+    <!-- Questions selector + theme -->
+    <div class="select">
+        <select>
+            {{ range .Questions }}
+            <option value="{{ .ID }}">{{ .Text }}</option>
+            {{ end }}
+        </select>
+    </div>
+
+    <!-- Leaderboard controls -->
+    {{ range .Teams }}
+    <div class="box">
+        <h2 class="title is-4">{{ .Name }}</h2>
+        <div class="columns">
+            <div class="column">
+                <button class="button is-danger">➖</button>
+            </div>
+            <div class="column">
+                <p>{{ .Score }}</p>
+            </div>
+            <div class="column">
+                <button class="button is-success">➕</button>
+            </div>
+        </div>
+    </div>
+    {{ end }}
+</section>
+
+<!--  -->
+</body>
+
+</html>
+
+
+<script>
+    $(function () {
+        $("select").selectize();
+    });
+</script>
+{{ end }}

@@ -2,30 +2,73 @@ package handlers
 
 import "gorm.io/gorm"
 
-type Question struct {
+/* =======================
+   QUIZ
+======================= */
+
+type Quiz struct {
 	gorm.Model
-	Text                  string
-	Answer                string
-	ShowMediaWithQuestion bool  // Whether to show media when displaying question
-	TextSpeed             int   // Speed of text display in ms per character
-	ThemeID               uint  // Foreign key // Media link, can be empty, or link to image/video or sound
-	Theme                 Theme `gorm:"foreignKey:ThemeID"` // Foreign key relation, 0 = any theme, any other number = specific theme
+	Name        string
+	Description string
+
+	Teams  []Team  `gorm:"constraint:OnDelete:CASCADE;"`
+	Themes []Theme `gorm:"constraint:OnDelete:CASCADE;"`
 }
+
+/* =======================
+   THEMES & QUESTIONS
+======================= */
 
 type Theme struct {
 	gorm.Model
 	Name string
-	Icon string // Media icon link
+	Icon string
+
+	QuizID uint
+	Quiz   Quiz `gorm:"constraint:OnDelete:CASCADE;"`
+
+	Questions []Question `gorm:"constraint:OnDelete:CASCADE;"`
 }
+
+type Question struct {
+	gorm.Model
+	Text                  string
+	Answer                string
+	ShowMediaWithQuestion bool // Show media when displaying question
+	TextSpeed             int
+
+	ThemeID uint
+	Theme   Theme `gorm:"constraint:OnDelete:CASCADE;"`
+}
+
+/* =======================
+   TEAMS & MEMBERS
+======================= */
 
 type Team struct {
 	gorm.Model
-	Name   string
-	Score  int
+	Name  string
+	Score int
+
 	QuizID uint
-	Quiz   Quiz   `gorm:"foreignKey:QuizID"`
-	Items  []Item `gorm:"foreignKey:TeamID"`
+	Quiz   Quiz `gorm:"constraint:OnDelete:CASCADE;"`
+
+	Members []Member `gorm:"constraint:OnDelete:CASCADE;"`
+	Items   []Item   `gorm:"constraint:OnDelete:CASCADE;"`
 }
+
+type Member struct {
+	gorm.Model
+	Name        string
+	Description string
+
+	TeamID uint
+	Team   Team `gorm:"constraint:OnDelete:CASCADE;"`
+}
+
+/* =======================
+   ITEMS
+======================= */
 
 type ItemType struct {
 	gorm.Model
@@ -35,17 +78,36 @@ type ItemType struct {
 
 type Item struct {
 	gorm.Model
-	TeamID     uint
+	Quantity int
+
+	TeamID uint
+	Team   Team `gorm:"constraint:OnDelete:CASCADE;"`
+
 	ItemTypeID uint
-	ItemType   ItemType `gorm:"foreignKey:ItemTypeID"`
-	Quantity   int
+	ItemType   ItemType `gorm:"constraint:OnDelete:RESTRICT;"`
 }
 
-type Quiz struct {
-	gorm.Model
-	Name        string
-	Description string
-	Questions   []Question `gorm:"many2many:quiz_questions;"`
-	Teams       []Team     `gorm:"many2many:leaderboard_teams;"`
-	Themes      []Theme    `gorm:"many2many:leaderboard_themes;"`
+/* =======================
+   QUESTION EDIT FORM
+======================= */
+
+type QuizEditForm struct {
+	Questions    []QuestionEditForm `form:"questions"`
+	NewTheme     *NewThemeForm      `form:"new_theme"`
+	NewQuestions []NewQuestionForm  `form:"new_questions"`
+}
+
+type QuestionEditForm struct {
+	ID      uint   `form:"id"`
+	ThemeID uint   `form:"theme_id"`
+	Text    string `form:"text" binding:"required"`
+}
+
+type NewQuestionForm struct {
+	ThemeID uint   `form:"theme_id" binding:"required"`
+	Text    string `form:"text" binding:"required"`
+}
+
+type NewThemeForm struct {
+	Name string `form:"name" binding:"required"`
 }

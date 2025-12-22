@@ -34,11 +34,14 @@ func SetRoutes(r *gin.Engine) {
 	r.GET("/", h.MainHandler)
 
 	// Admin route for managing content shown and leaderboard, with BasicAuth
-	admin := r.Group("/admin", gin.BasicAuth(gin.Accounts{
-		"admin": os.Getenv("ADMIN_PASSWORD"),
-	}))
+	admin := r.Group("/admin")
 
 	admin.GET("", h.AdminHandler)
 	admin.GET("/add-team/:id", h.AdminTeamHandler)
 	admin.POST("/add-team/:id", h.AdminTeamHandler)
+	admin.GET("/add-quiz", h.AdminQuizHandler)
+	admin.POST("/add-quiz", h.AdminQuizHandler)
+	admin.GET("/dashboard/:id", h.AdminQuizHandler)
+	admin.GET("/edit-quiz/:id", h.AdminQuizEditHandler)
+	admin.POST("/edit-quiz/:id", h.AdminQuizEditHandler)
 }
